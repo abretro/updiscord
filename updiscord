@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -Eeuxo pipefail
+
+# krt (abretro) wrote this
+
+## fetch the file
+tmpdir=/tmp/updiscord-$( date +%s )
+mkdir ${tmpdir}
+cd ${tmpdir}
+# curl -L because the download URL is a redirect to the current versioned url
+curl -L 'https://discord.com/api/download?platform=linux&format=tar.gz' -o discord-update.tgz
+
+
+## unpack the file
+cd /opt
+tar xvf "${tmpdir}/discord-update.tgz"
+
+# because of script options, this will only display if everything didn't fail:
+# (and disable set +x at this point to hide the echo command)
+set +x
+echo Updated Discord to latest version, cleaning up ${tmpdir}
+set -x
+rm -rf ${tmpdir}
